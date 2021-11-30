@@ -1,10 +1,10 @@
 
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext('2d');
 
 // add a colum number value to have a value to sort by
 ImageData.prototype.colNum = "should be number";
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext('2d');
 
 var imgcols = new Array(); // colloms of image pixels
 var img = new Image();     // image

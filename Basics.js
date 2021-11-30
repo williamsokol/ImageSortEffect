@@ -43,6 +43,7 @@ function sign(int)
     }
 }
 
+// Fisher–Yates shuffle
 function shuffle(array) {
     var m = array.length, t, i;
   
@@ -59,8 +60,8 @@ function shuffle(array) {
     }
   
     return array;
-  }
+}
 
-  function sleep(ms) {
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-  }
+}

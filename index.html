@@ -8,13 +8,17 @@
     
     </head>
     <body>
-        <canvas id="canvas"></canvas>
+        
+        <iframe src="Visuals.html" frameborder="0" onload="fixIframe()" id="myiframe"></iframe>
 
         <input type="file" accept="image/*" onchange="loadFile(event)">
-        <img id="output"/>
-
-        <script src="Basics.js"></script>
-        <script src="Algorithems.js"></script>
-        <script src="Sorter.js"></script>
+        <select id="mylist" onchange="loadSort()">
+            <option> Quick Sort </option>
+            <option> Bubble Sort </option>
+        </select>
+        
+        
+        <script src="SorterManager.js"></script>
+        
     </body>
 </html>

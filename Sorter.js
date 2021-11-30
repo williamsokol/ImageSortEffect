@@ -8,14 +8,16 @@ const ctx = canvas.getContext('2d');
 
 var imgcols = new Array(); // colloms of image pixels
 var img = new Image();     // image
+var sortType
 
 
 
+SetUpSorter(parent.image, parent.sortType);
 
 
-SetUpSorter("Picture1.png");
-async function SetUpSorter(imgSrc){
+async function SetUpSorter(imgSrc = img.src, sortType = "Quick Sort"){
 
+    // make new img.src if it ex
     img.src = imgSrc;
 
     // do when finished loading images
@@ -45,7 +47,7 @@ async function SetUpSorter(imgSrc){
     }
     
     // start sorting image
-    quickSort(imgcols, 0, imgcols.length - 1);
+    runSort(sortType);
     
     // start loop
     thing();
@@ -69,10 +71,16 @@ function thing(){
     },1000/30)    
 }
 
-var loadFile = function(event) {
-    //var output = document.getElementById('output');
-    SetUpSorter( URL.createObjectURL(event.target.files[0]));
-    //output.onload = function() {
-    //  URL.revokeObjectURL(output.src) // free memory
-    //}
-};
+
+
+function runSort(sortType){
+
+    switch (sortType){
+        case "Quick Sort":
+            quickSort(imgcols, 0, imgcols.length - 1);
+            break;
+        case "Bubble Sort":
+            bubbleSort(imgcols, imgcols.length);
+            break;
+    }
+}

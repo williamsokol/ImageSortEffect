@@ -1,10 +1,11 @@
 async function swap(arr, a, b) {
-    await sleep(50);
+    await sleep(5);
     let temp = arr[a];
     arr[a] = arr[b];
     arr[b] = temp;
 }
 
+//the first sort so far
 async function quickSort(arr, start, end) {
     if (start >= end) {
       return;
@@ -41,7 +42,30 @@ async function partition(arr, start, end) {
     //     states[i] = -1;
     //   }
     // }
-  
     return pivotIndex;
 }
+
+// second sort 
+async function bubbleSort( arr, n)
+{
+  var i, j;
+  for (i = 0; i < n-1; i++)
+  {
+      for (j = 0; j < n-i-1; j++)
+      {
+          if (arr[j].colNum > arr[j+1].colNum)
+          {
+            await swap(arr,j,j+1);
+          
+          }
+      }
   
+  }
+}
+
+// radix sort
+
+// merge sort
+
+// 
+ 

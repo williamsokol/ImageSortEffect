@@ -9,7 +9,7 @@ ImageData.prototype.colNum = "should be number";
 var imgcols = new Array(); // colloms of image pixels
 var img = new Image();     // image
 var sortType
-
+var offset =0;
 
 
 SetUpSorter(parent.image, parent.sortType);
@@ -22,10 +22,11 @@ async function SetUpSorter(imgSrc = img.src, sortType = "Quick Sort"){
 
     // do when finished loading images
     await new Promise(resolve => { img.onload = img.onerror = resolve; }).then(() => {
-            console.log('images finished loading');
+        //console.log('images finished loading');
     });
 
-    ctx.canvas.width  = img.width*2 + 10 ;
+    
+    ctx.canvas.width  = img.width+ (parent.recording? 0 :  img.width + 10 );
     ctx.canvas.height  = img.height;
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -39,11 +40,12 @@ async function SetUpSorter(imgSrc = img.src, sortType = "Quick Sort"){
         //console.log(imgcols[i].colNum)
     }
     
+    offset = parent.recording? 0 : (img.width+10)
     // make randomized image
     imgcols = shuffle(imgcols);
     for (var i=0; i<img.width; i++)
     {
-        ctx.putImageData(imgcols[i], i+(img.width+10), 0);
+        ctx.putImageData(imgcols[i], i+offset, 0);
     }
     
     // start sorting image
@@ -59,7 +61,7 @@ function draw(){
     
     for (var i=0; i<img.width; i++)
     {
-       ctx.putImageData(imgcols[i], i+(img.width+10), 0);
+       ctx.putImageData(imgcols[i], i+offset, 0);
        
     } 
 }
@@ -73,14 +75,22 @@ function thing(){
 
 
 
-function runSort(sortType){
+async function runSort(sortType){
 
     switch (sortType){
         case "Quick Sort":
-            quickSort(imgcols, 0, imgcols.length - 1);
+            await quickSort(imgcols, 0, imgcols.length - 1);
             break;
         case "Bubble Sort":
-            bubbleSort(imgcols, imgcols.length);
+            await bubbleSort(imgcols, imgcols.length);
             break;
+    }
+    
+    console.log("done sorting");
+    if(parent.recording)
+    {
+        await sleep(1000);
+        parent.mediaRecorder.stop();
+        parent.recording = false;
     }
 }

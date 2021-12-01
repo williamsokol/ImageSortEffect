@@ -4,30 +4,70 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Sorter</title>
-       
+       <style>
+       .grid-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        
+        padding: 10px;
+        }
+        .grid-item {
+        
+        padding: 20px;
+        font-size: 20px;
+        font-family: sans-serif;
+        text-align: center;
+        }
+        h1{
+            text-align: center;
+        }
+       </style>
     
     </head>
     <body>
-        
+        <h1> Image Sorter Effect</h1>
         <iframe src="Visuals.html" frameborder="0" onload="fixIframe()" id="myiframe"></iframe>
 
         <br>
-        <input type="file" accept="image/*" onchange="loadFile(event)">
-        <select id="mylist" onchange="loadSort()">
-            <option> Quick Sort </option>
-            <option> Bubble Sort </option>
-        </select>
 
         
-        <input type="text" id="myText" value="25" onchange="loadSpeed()">
+        
+        <div class="grid-container">
+            <div class="grid-item">
+                Upload Image <br>
+                <input type="file" accept="image/*" onchange="loadFile(event)">
+            </div>
+
+            <div class="grid-item">
+                Change Sort Method <br>
+                <select id="mylist" onchange="loadSort()">
+                    <option> Quick Sort </option>
+                    <option> Bubble Sort </option>
+                </select>
+            </div>
+
+            <div class="grid-item">
+                Change Sort Speed <br>
+                <input type="text" id="myText" value="10" onchange="loadSpeed()">
+            </div>  
+
+            <div class="grid-item">
+                Record and Download Sort <br>
+                <button onclick="loadRecord()">Record and Download</button>
+            </div>
+           
+          
+        </div>
 
 
         <br><br>
         By: William Sokol
         <br>
         Nov 29, 2021
+
+
         
-        
+        <script src="Basics.js"></script>
         <script src="SorterManager.js"></script>
         
     </body>

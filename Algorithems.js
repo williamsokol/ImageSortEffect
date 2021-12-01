@@ -1,5 +1,4 @@
 var delay = parent.speed;
-console.log(parent.speed)
 
 async function swap(arr, a, b) {
     await sleep(delay);

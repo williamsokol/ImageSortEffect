@@ -1,8 +1,10 @@
 const mainIframe = document.getElementById("myiframe");
 
+// settings for sorter in iframe
 var image = "Picture1.png";
 var sorter = "Quick Sort";
 var speed = document.getElementById("myText").value;
+var recording = false;
 
 function fixIframe()
 {
@@ -29,4 +31,44 @@ function loadSpeed(){
 
     speed = document.getElementById("myText").value;
     mainIframe.contentWindow.location.reload();
+}
+
+async function loadRecord(){
+
+    recording = true; 
+    mainIframe.contentWindow.location.reload();
+
+    // give one time to reload page
+    do{
+    
+        await sleep(10); 
+    }while (mainIframe.contentWindow.img == undefined)
+
+
+    var stream = mainIframe.contentDocument.getElementById("canvas").captureStream(60);
+
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.start();
+
+    var chunks = [];
+    mediaRecorder.ondataavailable = function(e) {
+    chunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = function (event) {
+        var blob = new Blob(chunks, {type: "video/mp4" });
+        var url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');  // dowload the recording
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'test.mp4';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    }
 }

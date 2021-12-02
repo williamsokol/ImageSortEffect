@@ -1,4 +1,7 @@
 const mainIframe = document.getElementById("myiframe");
+const perfData = performance.getEntriesByType("navigation");
+
+
 
 // settings for sorter in iframe
 var image = "Picture1.png";
@@ -38,11 +41,13 @@ async function loadRecord(){
     recording = true; 
     mainIframe.contentWindow.location.reload();
 
-    // give one time to reload page
-    do{
     
-        await sleep(10); 
-    }while (mainIframe.contentWindow.img == undefined)
+    // wait for reload duration of page
+    await sleep(perfData[0].domComplete); 
+    // do{
+    
+    //     await sleep(10); 
+    // }while (mainIframe.contentWindow.img == undefined)
 
 
     var stream = mainIframe.contentDocument.getElementById("canvas").captureStream(60);

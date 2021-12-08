@@ -51,8 +51,13 @@ async function loadRecord(){
     // wait for reload duration of page
     await sleep(perfData[0].domComplete); 
 
+    //await navigator.mediaDevices.getUserMedia({ audio: true });
 
     var stream = mainIframe.contentDocument.getElementById("canvas").captureStream(60);
+    if(context != null){
+        stream.addTrack(context.aStream.getAudioTracks()[0]);
+    }
+    // console.log(context != null)
 
     mediaRecorder = new MediaRecorder(stream);
 
@@ -84,6 +89,9 @@ function createAudio()
 {
     //add context to iframe
     context = new AudioContext()
+    var dest = context.createMediaStreamDestination();
+    context.aStream = dest.stream;
+
     
     
     compressor = context.createDynamicsCompressor();
@@ -92,5 +100,7 @@ function createAudio()
     compressor.ratio.value = 15;
     compressor.attack.value = 0;
     compressor.release.value = 0.2;
-    compressor.connect(context.destination)
+    compressor.connect(context.destination);
+
+    compressor.connect(dest);
 }

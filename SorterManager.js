@@ -9,11 +9,17 @@ var sorter = "Quick Sort";
 var speed = document.getElementById("myText").value;
 var recording = false;
 
+// audio stuff
+var context;
+var compressor;
+
 function fixIframe()
 {
     // fix size of iframe on loading
     mainIframe.width = mainIframe.contentDocument.body.scrollWidth + 30;
     mainIframe.height = mainIframe.contentDocument.body.scrollHeight+ 30;
+
+    //document.getElementById("test").click();
     
 }
 
@@ -44,10 +50,6 @@ async function loadRecord(){
     
     // wait for reload duration of page
     await sleep(perfData[0].domComplete); 
-    // do{
-    
-    //     await sleep(10); 
-    // }while (mainIframe.contentWindow.img == undefined)
 
 
     var stream = mainIframe.contentDocument.getElementById("canvas").captureStream(60);
@@ -76,4 +78,19 @@ async function loadRecord(){
             window.URL.revokeObjectURL(url);
         }, 100);
     }
+}
+
+function createAudio()
+{
+    //add context to iframe
+    context = new AudioContext()
+    
+    
+    compressor = context.createDynamicsCompressor();
+    compressor.threshold.value = -50;
+    compressor.knee.value = 5;
+    compressor.ratio.value = 15;
+    compressor.attack.value = 0;
+    compressor.release.value = 0.2;
+    compressor.connect(context.destination)
 }

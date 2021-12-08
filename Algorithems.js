@@ -5,6 +5,13 @@ async function swap(arr, a, b) {
     let temp = arr[a];
     arr[a] = arr[b];
     arr[b] = temp;
+    if(parent.context != null){
+      //console.log(parent.context);
+
+      playfreq(a)
+      playfreq(b)
+    }
+
 }
 
 //the first sort so far

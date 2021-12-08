@@ -60,6 +60,44 @@ function shuffle(array) {
     return array;
 }
 
+function normalize(val, array){
+    let max = array.length;
+    let min = 0;
+
+    return (val - min) / (max - min);
+}
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+
+
+async function playfreq(aindex){
+
+    aindex = normalize( aindex, imgcols);
+    //console.log(aindex>1);
+
+    let context = parent.context;
+    let o = context.createOscillator()
+    o.type = "sine"
+    o.frequency.value = 120 + 1200 * (aindex*aindex);
+
+    var  g = context.createGain()
+    g.gain.value = 2;
+    o.connect(g);
+    g.connect(parent.compressor);
+    
+
+    context.resume();
+    o.start();
+
+    // await sleep(parent.speed/2)
+    await sleep(parent.speed)
+    g.gain.exponentialRampToValueAtTime(
+        0.00001, context.currentTime +  .6
+        )
+
+    o.stop(context.currentTime +  .6);
 }
